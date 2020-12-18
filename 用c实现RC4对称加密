@@ -1,0 +1,57 @@
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+        char input[256];
+        printf("请输入需要加密的数据：\n");
+        scanf("%s",input);
+        char key[256];
+        printf("请输入密钥：\n");
+        scanf("%s",key);
+        
+        //初始化
+        char s[256] = {'0'};
+        int i = 0,j = 0;
+        char temp;
+        for (i = 0; i<256; i++)
+        {
+                s[i] = i;
+                t[i] = key[i%strlen(key)];
+        }
+        for (i = 0;i<256;i++)
+        {
+                j =(j + s[i] +t[i])%256; 
+                temp = s[i];
+                s[i]=s[j];
+                s[j]=temp;
+        }
+        //产生密钥流
+        char k[256] = {'0'};
+        i = 0;j =0;
+        int p = 0, r = 0;
+        int length = strlen(input);
+        for (r = 0;r < length; r++)
+        {
+                i = (i + 1) % 256;
+                j = (j + s[i]) %256;
+                temp = s[i]；
+                s[i] = s[j];
+                p = (s[i] + s[j]) % 256;
+                k[r] = s[p];
+        }
+        //加密
+        char output[256] = {'0'};
+        for (r = 0; r < length; r++)
+        {
+                output[r] = input[r] ^ k[r];
+        }
+        printf("加密后的密文为： %s\n",output);
+        //解密
+        char result[256] = {'0'};
+        for (r = 0; r < length; r++)
+        {
+                result[r] = output[r] ^ k[r];
+        }
+        printf("解密后的明文为：%s",result);
+        return 0;
+}        
